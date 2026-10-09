@@ -1,0 +1,101 @@
+[
+ {
+  "title": "행복하지 말아요",
+  "artist": "엠씨더맥스",
+  "tj": null,
+  "high": 72,
+  "note": null,
+  "mood": "이별",
+  "src": "나무위키 행복하지 말아요"
+ },
+ {
+  "title": "천상연",
+  "artist": "이창섭",
+  "tj": "86059",
+  "high": 70,
+  "note": "2024 리메이크 기준, 잠깐 찍는 음",
+  "mood": "사랑",
+  "src": "나무위키 천상연"
+ },
+ {
+  "title": "Drowning",
+  "artist": "WOODZ",
+  "tj": "83945",
+  "high": 73,
+  "note": "C5가 곡 전체에 자주 나옴",
+  "mood": "이별",
+  "src": "나무위키 Drowning(WOODZ)"
+ },
+ {
+  "title": "응급실",
+  "artist": "izi",
+  "tj": "14515",
+  "high": 70,
+  "note": "후반 한 번, 나머지는 G#4",
+  "mood": "이별",
+  "src": "나무위키 응급실(izi)"
+ },
+ {
+  "title": "이미 슬픈 사랑",
+  "artist": "야다",
+  "tj": null,
+  "high": 73,
+  "note": null,
+  "mood": "이별",
+  "src": "나무위키 이미 슬픈 사랑"
+ },
+ {
+  "title": "삭제",
+  "artist": "이승기",
+  "tj": null,
+  "high": 72,
+  "note": "구간표 최상단 기준",
+  "mood": "이별",
+  "src": "나무위키 삭제(이승기)"
+ },
+ {
+  "title": "가질수 없는 너",
+  "artist": "뱅크",
+  "tj": null,
+  "high": 70,
+  "note": null,
+  "mood": "짝사랑",
+  "src": "나무위키 가질 수 없는 너"
+ },
+ {
+  "title": "가시",
+  "artist": "버즈",
+  "tj": null,
+  "high": 69,
+  "note": null,
+  "mood": "이별",
+  "src": "나무위키 가시(버즈)"
+ },
+ {
+  "title": "소주 한 잔",
+  "artist": "임창정",
+  "tj": null,
+  "high": 71,
+  "note": null,
+  "mood": "이별",
+  "src": "나무위키 소주 한 잔"
+ },
+ {
+  "title": "좋니",
+  "artist": "윤종신",
+  "tj": null,
+  "high": 70,
+  "note": "가성 애드립 D#5",
+  "mood": "이별",
+  "src": "나무위키 좋니"
+ },
+ {
+  "title": "말리꽃",
+  "artist": "이승철",
+  "tj": null,
+  "high": 71,
+  "note": "구간표 최상단 기준",
+  "mood": null,
+  "src": "나무위키 말리꽃"
+ }
+]

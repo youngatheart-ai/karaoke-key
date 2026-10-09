@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>노래방 내 키 찾기</title>
+<meta name="description" content="후렴 30초만 부르면 내 음역과 노래방 곡별 추천 키를 알려 드려요. 목소리는 폰 밖으로 나가지 않아요.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --bg: #12111a;
+    --surface: #1d1b29;
+    --surface-2: #272438;
+    --line: #34304a;
+    --text: #f3f1fa;
+    --muted: #a9a4bf;
+    --accent: #ff6b8b;
+    --accent-2: #ffb36b;
+    --ok: #5fd3a6;
+    --warn: #ffc857;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, system-ui, sans-serif;
+    font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+  }
+  main { max-width: 480px; margin: 0 auto; padding: 28px 16px 48px; }
+  h1 { font-size: 28px; line-height: 1.25; margin: 8px 0 10px; letter-spacing: -0.02em; }
+  h2 { font-size: 18px; margin: 0 0 12px; letter-spacing: -0.01em; }
+  p { margin: 0 0 12px; }
+  .eyebrow { color: var(--accent-2); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; margin: 16px 0; }
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; min-height: 56px; border: 0; border-radius: 16px;
+    font: inherit; font-size: 17px; font-weight: 700; cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #1a0f14;
+  }
+  .btn.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+  .btn + .btn { margin-top: 10px; }
+  .tips { margin: 0; padding: 0; list-style: none; }
+  .tips li { display: flex; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .tips li:first-child { border-top: 0; }
+  .tips b { color: var(--accent-2); min-width: 18px; }
+  .hidden { display: none !important; }
+  .file-link { display: block; text-align: center; margin-top: 14px; color: var(--muted); font-size: 14px; text-decoration: underline; cursor: pointer; }
+
+  /* 녹음 */
+  .rec-wrap { text-align: center; padding: 24px 0 8px; }
+  .ring { width: 220px; height: 220px; margin: 0 auto 20px; position: relative; }
+  .ring svg { transform: rotate(-90deg); }
+  .ring .num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 52px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .ring .num small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); margin-top: -6px; }
+  .live-note { font-size: 20px; font-weight: 700; min-height: 30px; color: var(--accent-2); }
+  .meter { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 14px auto 22px; max-width: 260px; }
+  .meter i { display: block; height: 100%; width: 0; background: var(--ok); transition: width 80ms linear; }
+
+  /* 결과 */
+  .type { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 4px 0 8px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .stat { background: var(--surface-2); border-radius: 14px; padding: 12px 14px; }
+  .stat .k { font-size: 12px; color: var(--muted); }
+  .stat .v { font-size: 19px; font-weight: 700; }
+  .stat .v small { font-size: 12px; color: var(--muted); font-weight: 500; margin-left: 4px; }
+  .range { position: relative; height: 44px; margin: 18px 0 6px; }
+  .range .track { position: absolute; left: 0; right: 0; top: 18px; height: 8px; border-radius: 99px; background: var(--surface-2); }
+  .range .comfort { position: absolute; top: 14px; height: 16px; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+  .range .full { position: absolute; top: 18px; height: 8px; border-radius: 99px; background: #4b4566; }
+  .range .tick { position: absolute; top: 34px; font-size: 11px; color: var(--muted); transform: translateX(-50%); }
+  .legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); }
+  .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; background: var(--c); }
+
+  .songs { list-style: none; margin: 0; padding: 0; }
+  .song { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px 0; border-top: 1px solid var(--line); align-items: center; }
+  .song:first-child { border-top: 0; }
+  .song .t { font-weight: 700; }
+  .song .a { font-size: 13px; color: var(--muted); }
+  .key { font-weight: 800; font-size: 15px; padding: 6px 12px; border-radius: 99px; white-space: nowrap; text-align: center; }
+  .key.ok { background: rgba(95, 211, 166, 0.15); color: var(--ok); }
+  .key.down { background: rgba(255, 200, 87, 0.14); color: var(--warn); }
+  .key.hard { background: rgba(255, 107, 139, 0.14); color: var(--accent); }
+  .notice { font-size: 13px; color: var(--muted); background: var(--surface-2); border-radius: 12px; padding: 12px 14px; margin-top: 14px; }
+  .falsetto { border-color: var(--accent-2); }
+  footer { text-align: center; font-size: 12px; color: var(--muted); margin-top: 28px; }
+  footer a { color: var(--muted); }
+  .spinner { width: 44px; height: 44px; border-radius: 50%; border: 4px solid var(--surface-2); border-top-color: var(--accent); animation: spin 0.9s linear infinite; margin: 40px auto 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- 1. 시작 -->
+  <section id="s-intro">
+    <div class="eyebrow">노래방 음역 진단</div>
+    <h1>후렴 30초만 불러 주세요.<br>내 키를 찾아 드릴게요.</h1>
+    <p class="muted">내 목소리가 편하게 머무는 음역과, 노래방 인기곡을 몇 키로 부르면 좋은지 알려 드려요.</p>
+
+    <div class="card">
+      <h2>이렇게 불러 주세요</h2>
+      <ul class="tips">
+        <li><b>1</b><span>반주 없이 목소리만. 반주가 필요하면 다른 기기에서 이어폰으로 들으면서 불러요.</span></li>
+        <li><b>2</b><span>가장 높은 부분이 들어간 후렴을 골라요. 길게 끄는 음이 있으면 더 정확해요.</span></li>
+        <li><b>3</b><span>폰을 입에서 한 뼘쯤 떨어뜨리고, 조용한 곳에서 불러요.</span></li>
+      </ul>
+    </div>
+
+    <button class="btn" id="btn-start">🎤 30초 녹음 시작</button>
+    <label class="file-link" for="file">녹음해 둔 무반주 파일로 할게요</label>
+    <input type="file" id="file" accept="audio/*" class="hidden">
+    <p class="small muted" style="text-align:center;margin-top:16px">목소리는 이 폰 안에서만 분석하고, 어디에도 보내거나 저장하지 않아요.</p>
+  </section>
+
+  <!-- 2. 녹음 중 -->
+  <section id="s-rec" class="hidden">
+    <div class="rec-wrap">
+      <div class="ring">
+        <svg width="220" height="220" viewBox="0 0 220 220">
+          <circle cx="110" cy="110" r="98" fill="none" stroke="var(--surface-2)" stroke-width="12"/>
+          <circle id="ring-bar" cx="110" cy="110" r="98" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="615.75" stroke-dashoffset="615.75"/>
+          <defs><linearGradient id="g"><stop offset="0" stop-color="#ff6b8b"/><stop offset="1" stop-color="#ffb36b"/></linearGradient></defs>
+        </svg>
+        <div class="num"><div><span id="rec-sec">30</span><small>초 남음</small></div></div>
+      </div>
+      <div class="live-note" id="live-note">불러 주세요</div>
+      <div class="meter"><i id="meter"></i></div>
+      <button class="btn secondary" id="btn-stop" disabled>15초 뒤부터 끝낼 수 있어요</button>
+    </div>
+  </section>
+
+  <!-- 3. 분석 중 -->
+  <section id="s-busy" class="hidden" style="text-align:center">
+    <div class="spinner"></div>
+    <p>음높이를 하나하나 재는 중이에요</p>
+  </section>
+
+  <!-- 4. 결과 -->
+  <section id="s-result" class="hidden">
+    <div class="eyebrow">내 목소리 진단 결과</div>
+    <div class="type" id="r-type"></div>
+    <p class="muted" id="r-desc"></p>
+
+    <div class="card">
+      <h2>내 음역</h2>
+      <div class="range" id="r-range"></div>
+      <div class="legend"><span style="--c:linear-gradient(90deg,#ff6b8b,#ffb36b)">편하게 머무는 음역</span><span style="--c:#4b4566">낼 수 있는 음역</span></div>
+      <div class="stats" id="r-stats"></div>
+    </div>
+
+    <div class="card falsetto hidden" id="r-falsetto">
+      <h2>3옥 위의 고음이 잡혔어요</h2>
+      <p class="muted small" id="r-falsetto-text"></p>
+    </div>
+
+    <div class="card">
+      <h2>노래방에서 이 키로 불러 보세요</h2>
+      <ul class="songs" id="r-songs"></ul>
+      <div class="notice">곡별 최고음은 공개 자료(나무위키)를 기준으로 했어요. 누구나 고칠 수 있는 자료라 반음 정도 다를 수 있어요. 추천 키로 불러 보고 버거우면 한 칸 더 내려 주세요. 지금은 남성 가수 원곡 위주 11곡이고, 곡은 계속 늘려 갈게요.</div>
+    </div>
+
+    <button class="btn" id="btn-share">결과 카드 공유하기</button>
+    <button class="btn secondary" id="btn-retry">다시 부르기</button>
+  </section>
+
+  <footer>
+    분석은 브라우저 안에서만 이뤄져요. 녹음은 저장되지 않아요.
+  </footer>
+</main>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
