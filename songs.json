@@ -1,270 +1,1325 @@
 [
- {
-  "title": "행복하지 말아요",
-  "artist": "엠씨더맥스",
-  "tj": null,
-  "high": 72,
-  "mood": "이별 감성",
-  "appeal": "고음",
-  "situations": [
-   "친구"
-  ],
-  "tip": "고음 구간이 길게 이어지는 곡이에요. 앞 절에서 힘을 아끼고 마지막 후렴에 몰아 쓰세요.",
-  "tipSource": "초안",
-  "highSource": "나무위키"
- },
- {
-  "title": "천상연",
-  "artist": "이창섭",
-  "tj": "86059",
-  "high": 70,
-  "mood": "이별 감성",
-  "appeal": "고음",
-  "situations": [
-   "친구"
-  ],
-  "tip": "전체 음은 낮은 편이고 최고음은 잠깐 찍고 내려와요. 그 한 음에만 힘을 실으면 시원하게 들려요.",
-  "tipSource": "나무위키 곡 해설 요약",
-  "highSource": "나무위키 + LLM 교차 일치"
- },
- {
-  "title": "Drowning",
-  "artist": "WOODZ",
-  "tj": "83945",
-  "high": 73,
-  "mood": "이별 감성",
-  "appeal": "고음",
-  "situations": [
-   "친구"
-  ],
-  "tip": "3옥 도가 곡 내내 자주 나와요. 키를 충분히 낮추고, 고음은 소리보다 길이를 버티는 데 집중하세요.",
-  "tipSource": "나무위키 곡 해설 요약",
-  "highSource": "나무위키 + LLM 교차 일치"
- },
- {
-  "title": "응급실",
-  "artist": "izi",
-  "tj": "14515",
-  "high": 70,
-  "mood": "이별 감성",
-  "appeal": "분위기",
-  "situations": [
-   "친구",
-   "회식"
-  ],
-  "tip": "최고음은 후반에 딱 한 번이고 나머지는 2옥 솔# 정도예요. 그 한 번만 넘기면 완창이 쉬운 곡이에요.",
-  "tipSource": "나무위키 곡 해설 요약",
-  "highSource": "나무위키 + LLM 교차 일치"
- },
- {
-  "title": "이미 슬픈 사랑",
-  "artist": "야다",
-  "tj": null,
-  "high": 73,
-  "mood": "이별 감성",
-  "appeal": "고음",
-  "situations": [
-   "친구"
-  ],
-  "tip": "록 발라드 고음 곡이에요. 키를 낮추고 후렴은 목이 아니라 배로 밀어 주세요.",
-  "tipSource": "초안",
-  "highSource": "나무위키"
- },
- {
-  "title": "삭제",
-  "artist": "이승기",
-  "tj": null,
-  "high": 72,
-  "mood": "이별 감성",
-  "appeal": "고음",
-  "situations": [
-   "친구"
-  ],
-  "tip": "후렴 고음이 반복돼요. 처음부터 세게 가면 마지막에 지치니 1절은 70%로 부르세요.",
-  "tipSource": "초안",
-  "highSource": "나무위키"
- },
- {
-  "title": "가질수 없는 너",
-  "artist": "뱅크",
-  "tj": null,
-  "high": 70,
-  "mood": "짝사랑",
-  "appeal": "고음",
-  "situations": [
-   "친구",
-   "회식"
-  ],
-  "tip": "록 발라드치고 최고음이 높지 않아요. 고음보다 끝음을 길게 끄는 게 멋있게 들리는 곡이에요.",
-  "tipSource": "나무위키 곡 해설 요약",
-  "highSource": "나무위키"
- },
- {
-  "title": "가시",
-  "artist": "버즈",
-  "tj": null,
-  "high": 69,
-  "mood": "이별 감성",
-  "appeal": "고음",
-  "situations": [
-   "친구"
-  ],
-  "tip": "2옥 라 구간이 여러 번 나와요. 가사를 또박또박 끊어 부르면 록 느낌이 살아요.",
-  "tipSource": "초안",
-  "highSource": "나무위키 + LLM 교차 일치"
- },
- {
-  "title": "소주 한 잔",
-  "artist": "임창정",
-  "tj": null,
-  "high": 71,
-  "mood": "이별 감성",
-  "appeal": "분위기",
-  "situations": [
-   "회식"
-  ],
-  "tip": "말하듯 시작해서 후렴에서 감정을 터뜨리는 곡이에요. 술자리 이야기라 회식 마무리 곡으로 좋아요.",
-  "tipSource": "초안",
-  "highSource": "나무위키 + LLM 교차 일치"
- },
- {
-  "title": "좋니",
-  "artist": "윤종신",
-  "tj": null,
-  "high": 70,
-  "mood": "이별 감성",
-  "appeal": "감성",
-  "situations": [
-   "친구"
-  ],
-  "tip": "중고음이 쉬지 않고 이어져 체력 싸움이에요. 지친 상태에서 최고음이 나오니 앞부분 힘을 아끼세요. 마지막 가성 애드리브는 생략해도 돼요.",
-  "tipSource": "나무위키 곡 해설 요약",
-  "highSource": "나무위키"
- },
- {
-  "title": "말리꽃",
-  "artist": "이승철",
-  "tj": null,
-  "high": 71,
-  "mood": "서정",
-  "appeal": "고음",
-  "situations": [
-   "친구"
-  ],
-  "tip": "2옥 솔#부터 시까지 높은 구간이 넓게 퍼져 있어요. 키를 낮추고 호흡을 길게 가져가세요.",
-  "tipSource": "나무위키 구간표 요약",
-  "highSource": "나무위키"
- },
- {
-  "title": "너의 모든 순간",
-  "artist": "성시경",
-  "tj": null,
-  "high": 68,
-  "mood": "설렘",
-  "appeal": "감성",
-  "situations": [
-   "호감"
-  ],
-  "tip": "진성 최고음이 2옥 솔#으로 높지 않아요. 고음 대신 속삭이듯 부드럽게 부르는 게 이 곡의 매력이에요.",
-  "tipSource": "나무위키 각주 요약",
-  "highSource": "나무위키"
- },
- {
-  "title": "그대라는 사치",
-  "artist": "한동근",
-  "tj": null,
-  "high": 71,
-  "mood": "서정",
-  "appeal": "감성",
-  "situations": [
-   "호감"
-  ],
-  "tip": "잔잔하게 가다가 후반 클라이맥스에서 2옥 시까지 올라가요. 앞부분을 묵직하게 눌러 두면 후반이 더 크게 들려요.",
-  "tipSource": "나무위키 곡 해설 요약",
-  "highSource": "나무위키"
- },
- {
-  "title": "사랑 Two",
-  "artist": "윤도현",
-  "tj": null,
-  "high": 67,
-  "mood": "서정",
-  "appeal": "감성",
-  "situations": [
-   "호감",
-   "회식"
-  ],
-  "tip": "최고음은 2옥 솔로 높지 않지만 후렴마다 반복돼서 체력이 필요해요. 중음을 탄탄하게 버티는 게 핵심이에요.",
-  "tipSource": "나무위키 곡 해설 요약",
-  "highSource": "나무위키"
- },
- {
-  "title": "모르시나요",
-  "artist": "조째즈",
-  "tj": "44491",
-  "high": null,
-  "mood": "짝사랑",
-  "appeal": "감성",
-  "situations": [
-   "호감"
-  ],
-  "tip": "초안: 허스키하게 긁는 창법이 특징이에요. 따라 하기보다 내 목소리로 담담하게 부르는 게 안전해요.",
-  "tipSource": "초안"
- },
- {
-  "title": "나였으면",
-  "artist": "나윤권",
-  "tj": null,
-  "high": 71,
-  "mood": "짝사랑",
-  "appeal": "감성",
-  "situations": [
-   "호감"
-  ],
-  "tip": "초안: 후렴이 인상적인 곡이에요. 후렴 첫 소절을 크게 시작하지 말고 점점 키워 가세요.",
-  "tipSource": "초안",
-  "highSource": "LLM 1곳 (A#4~B4 중 상한값)"
- },
- {
-  "title": "모든 날 모든 순간",
-  "artist": "폴킴",
-  "tj": null,
-  "high": 68,
-  "mood": "설렘",
-  "appeal": "감성",
-  "situations": [
-   "호감"
-  ],
-  "tip": "초안: 어쿠스틱 발라드예요. 힘을 빼고 말하듯 부르면 진심이 전해지는 곡이에요.",
-  "tipSource": "초안",
-  "highSource": "LLM 1곳 (단일값)"
- },
- {
-  "title": "좋은 밤 좋은 꿈",
-  "artist": "너드커넥션",
-  "tj": null,
-  "high": 69,
-  "mood": "설렘",
-  "appeal": "감성",
-  "situations": [
-   "호감"
-  ],
-  "tip": "초안: 밴드 발라드라 담백하게 부르다 후렴에서 살짝 열어 주세요.",
-  "tipSource": "초안",
-  "highSource": "LLM 1곳 (G4~A4 중 상한값)"
- },
- {
-  "title": "사랑의 바보",
-  "artist": "더 넛츠",
-  "tj": "13721",
-  "high": 70,
-  "mood": "고백",
-  "appeal": "감성",
-  "situations": [
-   "호감"
-  ],
-  "tip": "초안: 고백하듯 부르는 곡이에요. 후렴 끝음을 길게 끌어 마음을 전하세요.",
-  "tipSource": "초안",
-  "highSource": "LLM 1곳 (A4~A#4 중 상한값)"
- }
+{
+"title": "행복하지 말아요",
+"artist": "엠씨더맥스",
+"tj": null,
+"high": 72,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "고음",
+"situations": [
+"친구"
+],
+"tip": "고음 구간이 길게 이어지는 곡이에요. 앞 절에서 힘을 아끼고 마지막 후렴에 몰아 쓰세요."
+},
+{
+"title": "천상연",
+"artist": "이창섭",
+"tj": "86059",
+"high": 70,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "고음",
+"situations": [
+"친구"
+],
+"tip": "전체 음은 낮은 편이고 최고음은 잠깐 찍고 내려와요. 그 한 음에만 힘을 실으면 시원하게 들려요."
+},
+{
+"title": "Drowning",
+"artist": "WOODZ",
+"tj": "83945",
+"high": 73,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "고음",
+"situations": [
+"친구"
+],
+"tip": "3옥 도가 곡 내내 자주 나와요. 키를 충분히 낮추고, 고음은 소리보다 길이를 버티는 데 집중하세요."
+},
+{
+"title": "응급실",
+"artist": "izi",
+"tj": "14515",
+"high": 70,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "분위기",
+"situations": [
+"친구",
+"회식"
+],
+"tip": "최고음은 후반에 딱 한 번이고 나머지는 2옥 솔# 정도예요. 그 한 번만 넘기면 완창이 쉬운 곡이에요."
+},
+{
+"title": "이미 슬픈 사랑",
+"artist": "야다",
+"tj": null,
+"high": 73,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "고음",
+"situations": [
+"친구"
+],
+"tip": "록 발라드 고음 곡이에요. 키를 낮추고 후렴은 목이 아니라 배로 밀어 주세요."
+},
+{
+"title": "삭제",
+"artist": "이승기",
+"tj": null,
+"high": 72,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "고음",
+"situations": [
+"친구"
+],
+"tip": "후렴 고음이 반복돼요. 처음부터 세게 가면 마지막에 지치니 1절은 70%로 부르세요."
+},
+{
+"title": "가질수 없는 너",
+"artist": "뱅크",
+"tj": null,
+"high": 70,
+"highSource": "나무위키",
+"mood": "짝사랑",
+"appeal": "고음",
+"situations": [
+"친구",
+"회식"
+],
+"tip": "록 발라드치고 최고음이 높지 않아요. 고음보다 끝음을 길게 끄는 게 멋있게 들리는 곡이에요."
+},
+{
+"title": "가시",
+"artist": "버즈",
+"tj": null,
+"high": 69,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "고음",
+"situations": [
+"친구"
+],
+"tip": "2옥 라 구간이 여러 번 나와요. 가사를 또박또박 끊어 부르면 록 느낌이 살아요."
+},
+{
+"title": "소주 한 잔",
+"artist": "임창정",
+"tj": null,
+"high": 71,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "분위기",
+"situations": [
+"회식"
+],
+"tip": "말하듯 시작해서 후렴에서 감정을 터뜨리는 곡이에요. 술자리 이야기라 회식 마무리 곡으로 좋아요."
+},
+{
+"title": "좋니",
+"artist": "윤종신",
+"tj": null,
+"high": 70,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "감성",
+"situations": [
+"친구"
+],
+"tip": "중고음이 쉬지 않고 이어져 체력 싸움이에요. 지친 상태에서 최고음이 나오니 앞부분 힘을 아끼세요. 마지막 가성 애드리브는 생략해도 돼요."
+},
+{
+"title": "말리꽃",
+"artist": "이승철",
+"tj": null,
+"high": 71,
+"highSource": "나무위키",
+"mood": "서정",
+"appeal": "고음",
+"situations": [
+"친구"
+],
+"tip": "2옥 솔#부터 시까지 높은 구간이 넓게 퍼져 있어요. 키를 낮추고 호흡을 길게 가져가세요."
+},
+{
+"title": "너의 모든 순간",
+"artist": "성시경",
+"tj": null,
+"high": 68,
+"highSource": "나무위키",
+"mood": "설렘",
+"appeal": "감성",
+"situations": [
+"호감"
+],
+"tip": "진성 최고음이 2옥 솔#으로 높지 않아요. 고음 대신 속삭이듯 부드럽게 부르는 게 이 곡의 매력이에요."
+},
+{
+"title": "그대라는 사치",
+"artist": "한동근",
+"tj": null,
+"high": 71,
+"highSource": "나무위키",
+"mood": "서정",
+"appeal": "감성",
+"situations": [
+"호감"
+],
+"tip": "잔잔하게 가다가 후반 클라이맥스에서 2옥 시까지 올라가요. 앞부분을 묵직하게 눌러 두면 후반이 더 크게 들려요."
+},
+{
+"title": "사랑 Two",
+"artist": "윤도현",
+"tj": null,
+"high": 67,
+"highSource": "나무위키",
+"mood": "서정",
+"appeal": "감성",
+"situations": [
+"호감",
+"회식"
+],
+"tip": "최고음은 2옥 솔로 높지 않지만 후렴마다 반복돼서 체력이 필요해요. 중음을 탄탄하게 버티는 게 핵심이에요."
+},
+{
+"title": "모든 날, 모든 순간",
+"artist": "폴킴",
+"tj": null,
+"high": 68,
+"highSource": "LLM 1곳 추정",
+"mood": "설렘",
+"appeal": "감성",
+"situations": [
+"호감"
+],
+"tip": "어쿠스틱 발라드예요. 힘을 빼고 말하듯 부르면 진심이 전해지는 곡이에요."
+},
+{
+"title": "좋은 밤 좋은 꿈",
+"artist": "너드커넥션",
+"tj": null,
+"high": 69,
+"highSource": "LLM 1곳 추정",
+"mood": "설렘",
+"appeal": "감성",
+"situations": [
+"호감"
+],
+"tip": "밴드 발라드라 담백하게 부르다 후렴에서 살짝 열어 주세요."
+},
+{
+"title": "사랑의 바보",
+"artist": "더 넛츠",
+"tj": "13721",
+"high": 70,
+"highSource": "LLM 1곳 추정",
+"mood": "고백",
+"appeal": "감성",
+"situations": [
+"호감"
+],
+"tip": "고백하듯 부르는 곡이에요. 후렴 끝음을 길게 끌어 마음을 전하세요."
+},
+{
+"title": "나였으면",
+"artist": "나윤권",
+"tj": null,
+"high": 71,
+"highSource": "LLM 1곳 추정",
+"mood": "짝사랑",
+"appeal": "감성",
+"situations": [
+"호감"
+],
+"tip": "중고음을 계속 유지해야 해서 지치기 쉬운 곡이에요. 1절은 힘을 아끼고 후렴부터 점점 키워 가세요."
+},
+{
+"title": "거리에서",
+"artist": "성시경",
+"tj": null,
+"high": 70,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "감성",
+"situations": [
+"친구",
+"호감"
+],
+"tip": "진성 최고음은 2옥 라#이고, 3옥 도는 가성 구간이에요. 맨 위 음은 가성으로 부드럽게 넘겨도 원곡 느낌이 살아요."
+},
+{
+"title": "신호등",
+"artist": "이무진",
+"tj": null,
+"high": 69,
+"highSource": "나무위키",
+"mood": "청춘",
+"appeal": "분위기",
+"situations": [
+"친구"
+],
+"tip": "진성 최고음은 2옥 라, 가성으로는 2옥 시까지 가요. 키를 한두 칸 낮추면 끝까지 신나게 부를 수 있어요."
+},
+{
+"title": "헤어지자 말해요",
+"artist": "박재정",
+"tj": null,
+"high": 73,
+"highSource": "나무위키",
+"mood": "이별 감성",
+"appeal": "고음",
+"situations": [
+"친구"
+],
+"tip": "3옥 도#까지 올라가는 고난도 곡이에요. 키를 충분히 낮추고, 감정은 크게보다 길게 가져가세요."
+},
+{
+"title": "너였다면",
+"artist": "정승환",
+"tj": null,
+"high": 69,
+"highSource": "나무위키",
+"mood": "짝사랑",
+"appeal": "감성",
+"situations": [
+"호감"
+],
+"tip": "최고음은 2옥 라로 요즘 발라드치고 높지 않아요. 고음보다 담백한 톤이 매력이에요."
+},
+{
+"title": "하늘을 달리다",
+"artist": "이적",
+"tj": null,
+"high": 67,
+"highSource": "나무위키",
+"mood": "신나는",
+"appeal": "분위기",
+"situations": [
+"친구",
+"회식"
+],
+"tip": "최고음이 2옥 솔로 높지 않아 누구나 따라 부르기 좋아요. 후렴은 다 같이 부르도록 마이크를 돌려 보세요."
+},
+{
+"title": "질풍가도",
+"artist": "유정석",
+"tj": null,
+"high": 71,
+"highSource": "나무위키",
+"mood": "신나는",
+"appeal": "고음",
+"situations": [
+"친구",
+"회식"
+],
+"tip": "후렴 2옥 시에서 많은 사람이 막혀요. 키를 낮추고 후렴은 떼창으로 함께 가면 분위기가 살아요."
+},
+{
+"title": "참다행이야",
+"artist": "에스파파",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "위로",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "어디에도",
+"artist": "엠씨더맥스",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "남자를 몰라",
+"artist": "버즈",
+"tj": "15978",
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "모르시나요",
+"artist": "조째즈",
+"tj": "44491",
+"high": null,
+"highSource": null,
+"mood": "짝사랑",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "나는 반딧불",
+"artist": "황가람",
+"tj": "43770",
+"high": null,
+"highSource": null,
+"mood": "위로",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "애상",
+"artist": "쿨",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "My Love (And)",
+"artist": "버즈",
+"tj": "15922",
+"high": null,
+"highSource": null,
+"mood": "사랑",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "예술이야",
+"artist": "싸이",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "Tears",
+"artist": "소찬휘",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "입춘",
+"artist": "한로로",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "가을 타나 봐",
+"artist": "바이브",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "친구",
+"artist": "안재욱",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "우정",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "바다의 왕자",
+"artist": "박명수",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "안동역에서",
+"artist": "진성",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "트로트",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "술 한잔 해요",
+"artist": "지아",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "심(心)",
+"artist": "DK(디셈버)",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "그집앞",
+"artist": "이재성",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "...사랑했잖아...",
+"artist": "고경표",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "초혼",
+"artist": "장윤정",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "트로트",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "Pretty Girl",
+"artist": "RESCENE",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "형(兄)",
+"artist": "노라조",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "우정",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "준비 없는 이별",
+"artist": "녹색지대",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "슬퍼지려 하기 전에",
+"artist": "쿨",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "0+0",
+"artist": "한로로",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "첫눈처럼 너에게 가겠다",
+"artist": "에일리",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "I Love You",
+"artist": "포지션",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "고백",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "그래 늦지 않았어",
+"artist": "녹색지대",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "위로",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "비와 당신",
+"artist": "럼블 피쉬",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "가을 안부",
+"artist": "먼데이 키즈",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "평행선",
+"artist": "문희옥",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "트로트",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "꿈속에 너",
+"artist": "에이치코드",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "그대만 있다면",
+"artist": "너드커넥션",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "시작의 아이",
+"artist": "마크툽",
+"tj": "44381",
+"high": null,
+"highSource": null,
+"mood": "위로",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "Golden",
+"artist": "HUNTR/X",
+"tj": "88040",
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "사건의 지평선",
+"artist": "윤하",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "청춘",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "밤양갱",
+"artist": "비비",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"친구",
+"호감"
+],
+"tip": null
+},
+{
+"title": "내 사람",
+"artist": "SG 워너비",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "고백",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "너를 위해",
+"artist": "임재범",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "사랑은 늘 도망가",
+"artist": "임영웅",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "체념",
+"artist": "빅마마",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "취기를 빌려",
+"artist": "산들",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "고백",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "죽어도 못 보내",
+"artist": "2AM",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "걱정말아요 그대",
+"artist": "이적",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "위로",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "나를 외치다",
+"artist": "마야",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "고백",
+"artist": "뜨거운 감자",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "고백",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "벌써 일년",
+"artist": "브라운 아이즈",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "사랑하기 때문에",
+"artist": "유재하",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "좋은 날",
+"artist": "아이유",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"친구",
+"호감"
+],
+"tip": null
+},
+{
+"title": "너랑 나",
+"artist": "아이유",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "봄날",
+"artist": "방탄소년단",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "여행",
+"artist": "볼빨간사춘기",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "벚꽃 엔딩",
+"artist": "버스커 버스커",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"친구",
+"호감"
+],
+"tip": null
+},
+{
+"title": "이제 나만 믿어요",
+"artist": "임영웅",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "고백",
+"appeal": null,
+"situations": [
+"회식",
+"호감"
+],
+"tip": null
+},
+{
+"title": "너를 사랑하고 있어",
+"artist": "백현",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "고백",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "아로하",
+"artist": "조정석",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "고백",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "라라라",
+"artist": "SG 워너비",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "고백",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "살다가",
+"artist": "SG 워너비",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "내게 오는 길",
+"artist": "성시경",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "두 사람",
+"artist": "성시경",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "너에게 난, 나에게 넌",
+"artist": "자전거 탄 풍경",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"호감",
+"친구"
+],
+"tip": null
+},
+{
+"title": "서른 즈음에",
+"artist": "김광석",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+},
+{
+"title": "소녀",
+"artist": "이문세",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "서정",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "붉은 노을",
+"artist": "빅뱅",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "말달리자",
+"artist": "크라잉넛",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "그대에게",
+"artist": "신해철",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "에피소드",
+"artist": "이무진",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "청춘",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "첫 만남은 계획대로 되지 않아",
+"artist": "TWS",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "Hype Boy",
+"artist": "NewJeans",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "위잉위잉",
+"artist": "혁오",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "청춘",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "우주를 줄게",
+"artist": "볼빨간사춘기",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "썸",
+"artist": "소유, 정기고",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"호감",
+"친구"
+],
+"tip": null
+},
+{
+"title": "사랑을 했다",
+"artist": "iKON",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "다시 만난 세계",
+"artist": "소녀시대",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구",
+"회식"
+],
+"tip": null
+},
+{
+"title": "내가 제일 잘 나가",
+"artist": "2NE1",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "신나는",
+"appeal": null,
+"situations": [
+"친구"
+],
+"tip": null
+},
+{
+"title": "금요일에 만나요",
+"artist": "아이유",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "설렘",
+"appeal": null,
+"situations": [
+"호감"
+],
+"tip": null
+},
+{
+"title": "사랑했지만",
+"artist": "김광석",
+"tj": null,
+"high": null,
+"highSource": null,
+"mood": "이별 감성",
+"appeal": null,
+"situations": [
+"회식"
+],
+"tip": null
+}
 ]

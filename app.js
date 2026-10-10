@@ -12,7 +12,7 @@ const SESSION = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random())
 const SRC = (new URLSearchParams(location.search).get('src') || '').slice(0, 30) || null;
 const LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
 const track = (event, data = {}) => {
-  const row = { event, session: SESSION, src: SRC, situation: data.situation ?? null, picks: data.picks ?? null, song: data.song ? String(data.song).slice(0, 60) : null };
+  const row = { event, session: SESSION, src: SRC, situation: data.situation ?? null, picks: data.picks ?? null, song: data.song ? String(data.song).slice(0, 60) : null, choice: data.choice ?? null, est_lo: data.estLo ?? null };
   if (LOCAL) { console.log('[track]', row); return; }
   fetch(DB_URL, { method: 'POST', keepalive: true, headers: { apikey: DB_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(row) }).catch(() => {});
 };
@@ -34,40 +34,44 @@ fetch('./songs.json').then((r) => r.json()).then((d) => { songs = d; renderPicks
 track('visit');
 
 // ---------- 곡 고르기 ----------
+const esc = (x) => String(x).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const chips = (t, m) => `<div class="chips">
+  <button class="chip easy ${m === 'easy' ? 'on' : ''}" data-t="${esc(t)}" data-v="easy">편해요</button>
+  <button class="chip hard ${m === 'hard' ? 'on' : ''}" data-t="${esc(t)}" data-v="hard">버거워요</button></div>`;
+
 function renderPicks() {
-  const q = $('q').value.trim().toLowerCase();
-  const list = songs.filter((s) => s.high != null)
-    .filter((s) => !q || `${s.title} ${s.artist}`.toLowerCase().includes(q));
-  $('pick-list').innerHTML = list.map((s) => {
-    const m = marks.get(s.title);
-    return `<div class="pick">
-      <div><div class="t" style="font-weight:700">${s.title}</div><div class="small muted">${s.artist}</div></div>
-      <div class="chips">
-        <button class="chip easy ${m === 'easy' ? 'on' : ''}" data-t="${s.title}" data-v="easy">편해요</button>
-        <button class="chip hard ${m === 'hard' ? 'on' : ''}" data-t="${s.title}" data-v="hard">버거워요</button>
-      </div></div>`;
-  }).join('') || '<p class="small muted" style="padding:12px 0">검색 결과가 없어요.</p>';
-  const nEasy = [...marks.values()].filter((v) => v === 'easy').length;
-  $('btn-result').disabled = nEasy === 0;
-  $('btn-result').textContent = nEasy === 0 ? '편한 곡을 하나 이상 골라 주세요' : `결과 보기 (${marks.size}곡 선택)`;
+  const raw = $('q').value.trim();
+  const q = raw.toLowerCase().replace(/\s/g, '');
+  const hit = (s) => !q || `${s.title}${s.artist}`.toLowerCase().replace(/\s/g, '').includes(q);
+  // 키 계산이 되는 곡(★)을 먼저 보여 준다
+  const list = songs.filter(hit).sort((a, b) => (b.high != null) - (a.high != null));
+  let html = list.map((s) => `<div class="pick">
+      <div><div style="font-weight:700">${s.high != null ? '★ ' : ''}${esc(s.title)}</div><div class="small muted">${esc(s.artist)}${s.custom ? ', 직접 추가' : ''}</div></div>
+      ${chips(s.title, marks.get(s.title))}</div>`).join('');
+  if (raw && !songs.some((s) => s.title.toLowerCase().replace(/\s/g, '') === q)) {
+    html += `<div class="pick"><div><div style="font-weight:700">"${esc(raw)}" 직접 추가</div><div class="small muted">목록에 없는 곡도 골라 주세요. 모인 답으로 이 곡의 키를 분석해요.</div></div>${chips('__custom__', null)}</div>`;
+  }
+  $('pick-list').innerHTML = html;
+  const easyKnown = songs.filter((s) => s.high != null && marks.get(s.title) === 'easy').length;
+  $('btn-result').disabled = easyKnown === 0;
+  $('btn-result').textContent = easyKnown === 0
+    ? (marks.size ? '★ 곡 중 편한 곡을 하나 이상 골라 주세요' : '편한 곡을 하나 이상 골라 주세요')
+    : `결과 보기 (${marks.size}곡 선택)`;
 }
 
 $('pick-list').addEventListener('click', (e) => {
   const b = e.target.closest('.chip');
   if (!b) return;
-  const { t, v } = b.dataset;
+  let { t, v } = b.dataset;
+  if (t === '__custom__') {
+    t = $('q').value.trim().slice(0, 60);
+    if (!t) return;
+    if (!songs.some((s) => s.title === t)) songs.push({ title: t, artist: '', high: null, situations: [], custom: true });
+  }
   if (marks.get(t) === v) marks.delete(t); else marks.set(t, v);
   renderPicks();
 });
 $('q').addEventListener('input', renderPicks);
-$('btn-missing').addEventListener('click', () => {
-  const v = $('missing').value.trim();
-  if (!v) return;
-  track('missing_song', { song: v });
-  $('missing').value = '';
-  $('btn-missing').textContent = '고마워요';
-  setTimeout(() => { $('btn-missing').textContent = '보내기'; }, 1500);
-});
 
 // ---------- 추정 ----------
 // 편한 곡 최고음의 최댓값 = 확실히 내는 음(하한). 버거운 곡 최고음의 최솟값 = 넘기 어려운 음(상한).
@@ -116,7 +120,7 @@ function renderResult() {
   const good = known.filter((s) => s.key.d >= -2)
     .sort((a, b) => (picked.has(a.title) - picked.has(b.title)) || Math.abs(a.key.d) - Math.abs(b.key.d));
   const recs = good.slice(0, 3);
-  const pending = fit.filter((s) => s.high == null).slice(0, Math.max(0, 3 - recs.length) + 1);
+  const pending = fit.filter((s) => s.high == null && !s.custom).slice(0, Math.max(1, 3 - recs.length));
 
   $('r-recs').innerHTML = recs.map((s) => `
     <div class="rec">
@@ -128,7 +132,7 @@ function renderResult() {
     <div class="rec">
       <div class="top"><div><div style="font-weight:700">${s.title}</div><div class="small muted">${s.artist}</div></div>
       <div class="key down">키 정보 준비 중</div></div>
-      <div class="tip"><span class="tag">${s.mood}</span>${s.tip.replace(/^초안: /, '')}</div>
+      <div class="tip"><span class="tag">${s.mood}</span>이 자리에 어울리는 곡이에요. 키 정보는 이용자 답을 모으는 중이에요.</div>
     </div>`).join('') ||
     '<p class="small muted">이 상황에 맞는 곡을 아직 준비 중이에요.</p>';
 
@@ -138,6 +142,9 @@ function renderResult() {
 
   last = { type: type.name, range, recs };
   track('result', { situation, picks: marks.size });
+  // 키를 모르는 곡에 대한 답은 추정 음역과 함께 남겨, 답이 쌓이면 그 곡의 최고음을 계산한다
+  songs.filter((s) => s.high == null && marks.has(s.title))
+    .forEach((s) => track('pick', { situation, song: s.title, choice: marks.get(s.title), estLo: est.lo }));
   show('s-result');
 }
 
