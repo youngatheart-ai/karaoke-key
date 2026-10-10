@@ -1,198 +1,140 @@
-// app.js - 녹음 → 분석 → 결과 → 공유. 서버 없이 브라우저 안에서만 동작한다.
-import { analyze, analyzeMidi, highestBelow, midiToKoreanNote } from './analyzer.js';
-
-const REC_SEC = 30;
-const MIN_SEC = 15;
-const FALSETTO_LINE = 72; // C5. 이 위는 가성일 수 있어 키 추천에서 뺀다
+// app.js - 노래방 선곡 코치. 고른 곡의 원곡 최고음으로 음역을 추정하고, 상황별 곡과 키, 부르는 포인트를 고른다.
+// 서버 없음. 모든 계산은 브라우저 안에서 한다.
 
 const $ = (id) => document.getElementById(id);
-const screens = ['s-intro', 's-rec', 's-busy', 's-result'];
-const show = (id) => screens.forEach((s) => $(s).classList.toggle('hidden', s !== id));
-const note = (m) => midiToKoreanNote(m);
+const screens = ['s-intro', 's-situation', 's-pick', 's-result'];
+const show = (id) => { screens.forEach((s) => $(s).classList.toggle('hidden', s !== id)); window.scrollTo(0, 0); };
 
 // 측정 지점. 지금은 콘솔에만 남긴다. 배포 시 분석 도구를 연결한다.
 const track = (event, data = {}) => console.log('[track]', event, data);
 
+const KO = ['도', '도#', '레', '레#', '미', '파', '파#', '솔', '솔#', '라', '라#', '시'];
+const note = (m) => `${Math.floor(m / 12) - 3}옥 ${KO[((m % 12) + 12) % 12]}`; // C4 = 2옥 도
+
+const SITUATION = {
+  호감: { label: '마음에 드는 사람 앞에서', recTitle: '마음에 드는 사람 앞에서 부를 곡' },
+  친구: { label: '친구들과', recTitle: '친구들 앞에서 한 곡 제대로 보여 줄 곡' },
+  회식: { label: '회식에서', recTitle: '회식에서 무난하게 분위기 맞출 곡' },
+};
+
 let songs = [];
-fetch('./songs.json').then((r) => r.json()).then((d) => { songs = d; });
+let situation = null;
+const marks = new Map(); // title -> 'easy' | 'hard'
+
+fetch('./songs.json').then((r) => r.json()).then((d) => { songs = d; renderPicks(); });
 track('visit');
 
-// ---------- 녹음 ----------
-let ctx, stream, proc, chunks, timer, startedAt;
-
-async function startRecording() {
-  track('record_start');
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({
-      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
-    });
-  } catch (e) {
-    alert('마이크 권한이 필요해요. 브라우저 설정에서 마이크를 허용해 주세요.');
-    return;
-  }
-  ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const src = ctx.createMediaStreamSource(stream);
-  proc = ctx.createScriptProcessor(4096, 1, 1);
-  chunks = [];
-  proc.onaudioprocess = (e) => {
-    const x = e.inputBuffer.getChannelData(0);
-    chunks.push(new Float32Array(x));
-    let s = 0;
-    for (let i = 0; i < x.length; i++) s += x[i] * x[i];
-    const level = Math.min(1, Math.sqrt(s / x.length) * 6);
-    $('meter').style.width = `${Math.round(level * 100)}%`;
-  };
-  src.connect(proc);
-  proc.connect(ctx.destination);
-
-  show('s-rec');
-  startedAt = performance.now();
-  $('btn-stop').disabled = true;
-  $('btn-stop').textContent = `${MIN_SEC}초 뒤부터 끝낼 수 있어요`;
-  timer = setInterval(tick, 200);
+// ---------- 곡 고르기 ----------
+function renderPicks() {
+  const q = $('q').value.trim().toLowerCase();
+  const list = songs.filter((s) => s.high != null)
+    .filter((s) => !q || `${s.title} ${s.artist}`.toLowerCase().includes(q));
+  $('pick-list').innerHTML = list.map((s) => {
+    const m = marks.get(s.title);
+    return `<div class="pick">
+      <div><div class="t" style="font-weight:700">${s.title}</div><div class="small muted">${s.artist}</div></div>
+      <div class="chips">
+        <button class="chip easy ${m === 'easy' ? 'on' : ''}" data-t="${s.title}" data-v="easy">편해요</button>
+        <button class="chip hard ${m === 'hard' ? 'on' : ''}" data-t="${s.title}" data-v="hard">버거워요</button>
+      </div></div>`;
+  }).join('') || '<p class="small muted" style="padding:12px 0">검색 결과가 없어요.</p>';
+  const nEasy = [...marks.values()].filter((v) => v === 'easy').length;
+  $('btn-result').disabled = nEasy === 0;
+  $('btn-result').textContent = nEasy === 0 ? '편한 곡을 하나 이상 골라 주세요' : `결과 보기 (${marks.size}곡 선택)`;
 }
 
-function tick() {
-  const el = (performance.now() - startedAt) / 1000;
-  const left = Math.max(0, REC_SEC - el);
-  $('rec-sec').textContent = Math.ceil(left);
-  $('ring-bar').setAttribute('stroke-dashoffset', String(615.75 * (left / REC_SEC)));
-  if (el >= MIN_SEC && $('btn-stop').disabled) {
-    $('btn-stop').disabled = false;
-    $('btn-stop').textContent = '여기까지 할게요';
-  }
-  // 최근 0.5초 음높이를 대략 보여 준다(재미 요소, 결과에는 쓰지 않음)
-  if (chunks.length > 4) {
-    const recent = concat(chunks.slice(-4));
-    const r = analyze(recent, ctx.sampleRate);
-    const m = r.median;
-    $('live-note').textContent = m ? note(m).ko : '…';
-  }
-  if (left <= 0) stopRecording();
+$('pick-list').addEventListener('click', (e) => {
+  const b = e.target.closest('.chip');
+  if (!b) return;
+  const { t, v } = b.dataset;
+  if (marks.get(t) === v) marks.delete(t); else marks.set(t, v);
+  renderPicks();
+});
+$('q').addEventListener('input', renderPicks);
+$('btn-missing').addEventListener('click', () => {
+  const v = $('missing').value.trim();
+  if (!v) return;
+  track('missing_song', { song: v });
+  $('missing').value = '';
+  $('btn-missing').textContent = '고마워요';
+  setTimeout(() => { $('btn-missing').textContent = '보내기'; }, 1500);
+});
+
+// ---------- 추정 ----------
+// 편한 곡 최고음의 최댓값 = 확실히 내는 음(하한). 버거운 곡 최고음의 최솟값 = 넘기 어려운 음(상한).
+function estimate() {
+  const pick = (v) => songs.filter((s) => marks.get(s.title) === v && s.high != null);
+  const easy = pick('easy'), hard = pick('hard');
+  const lo = Math.max(...easy.map((s) => s.high));
+  const hiCandidates = hard.map((s) => s.high).filter((h) => h > lo);
+  const hi = hiCandidates.length ? Math.min(...hiCandidates) : null;
+  const conflict = hard.some((s) => s.high <= lo);
+  return { lo, hi, conflict, easy, hard };
 }
 
-function stopRecording() {
-  clearInterval(timer);
-  proc.disconnect();
-  stream.getTracks().forEach((t) => t.stop());
-  const sr = ctx.sampleRate;
-  const samples = concat(chunks);
-  ctx.close();
-  runAnalysis(samples, sr, 'mic');
+const MOOD_NAME = { '이별 감성': '감성 발라더', 짝사랑: '감성 발라더', 서정: '서정 발라더', 설렘: '설렘 보컬', 고백: '설렘 보컬', 신나는: '분위기 메이커', 위로: '서정 발라더', 우정: '분위기 메이커' };
+
+function voiceType(lo, easy) {
+  const tier = lo >= 71 ? ['고음 자신감', '높은 음도 원키로 소화해요. 고음으로 어필하는 곡을 골라도 무리가 없어요.']
+    : lo >= 69 ? ['안정적인', '노래방 인기 발라드 대부분을 원키 또는 한두 키 낮춰 부를 수 있는 음역이에요.']
+    : ['담백한', '고음으로 승부하기보다 중음에서 감정을 전하는 쪽이 잘 맞아요. 키를 낮추는 걸 두려워하지 마세요.'];
+  const count = {};
+  easy.forEach((s) => { const k = MOOD_NAME[s.mood] || '감성 발라더'; count[k] = (count[k] || 0) + 1; });
+  const mood = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+  return { name: `${tier[0]} ${mood}`, desc: tier[1] };
 }
 
-function concat(list) {
-  const n = list.reduce((a, b) => a + b.length, 0);
-  const out = new Float32Array(n);
-  let o = 0;
-  for (const c of list) { out.set(c, o); o += c.length; }
-  return out;
+function keyOf(lo, high) {
+  const d = lo - high;
+  if (d >= 0) return { label: '원키', cls: 'ok', d };
+  return { label: `${d}키`, cls: d >= -2 ? 'down' : 'hard', d };
 }
 
-// ---------- 파일 ----------
-async function fromFile(file) {
-  track('file_upload');
-  show('s-busy');
-  const buf = await file.arrayBuffer();
-  const ac = new (window.AudioContext || window.webkitAudioContext)();
-  let audio;
-  try {
-    audio = await ac.decodeAudioData(buf);
-  } catch (e) {
-    alert('이 파일은 읽을 수 없어요. m4a, mp3, wav 파일로 다시 시도해 주세요.');
-    show('s-intro');
-    return;
-  }
-  const ch = audio.getChannelData(0);
-  ac.close();
-  runAnalysis(new Float32Array(ch), audio.sampleRate, 'file');
-}
-
-// ---------- 분석 ----------
-function runAnalysis(samples, sr, via) {
-  show('s-busy');
-  setTimeout(() => {
-    const r = analyze(samples, sr);
-    const chestHigh = highestBelow(r._midi, FALSETTO_LINE);
-    if (r.highest == null || chestHigh == null || r.voicedSec < 5) {
-      alert('길게 끈 음이 부족해서 분석하지 못했어요. 한 음을 반 박자 이상 끄는 후렴으로 다시 불러 주세요.');
-      track('analysis_fail', { via, voicedSec: r.voicedSec });
-      show('s-intro');
-      return;
-    }
-    track('result', { via });
-    renderResult(r, chestHigh);
-  }, 50);
-}
-
-// 목소리 유형: 편한 음역의 중심과 진성 최고음으로 나눈다. 성별을 가정하지 않는다.
-function voiceType(center, high) {
-  const spread = high - center;
-  if (spread >= 13) return ['반전 매력형', '평소엔 낮고 차분하게 머물다가, 필요할 때 높이 치고 올라가요. 벌스는 낮게 깔고 후렴에서 터지는 곡이 잘 어울려요.'];
-  if (center < 55) return ['따뜻한 중저음형', '낮은 음역에서 목소리가 가장 편안해요. 이야기하듯 부르는 발라드에서 매력이 살아나요.'];
-  if (center < 62) return ['균형 잡힌 중음형', '높지도 낮지도 않은 음역이 편해요. 키만 잘 맞추면 고를 수 있는 곡이 가장 많은 타입이에요.'];
-  return ['맑은 고음형', '높은 음역에서 목소리가 편해요. 원키가 높은 곡도 크게 낮추지 않고 부를 수 있어요.'];
-}
-
-function keyAdvice(userHigh, songHigh) {
-  const d = Math.round(userHigh - songHigh);
-  if (d >= 0) return { cls: 'ok', label: d >= 3 ? `원키 OK (+${Math.min(d, 3)}까지)` : '원키 OK', sort: 0 };
-  if (d >= -2) return { cls: 'down', label: `${d}키`, sort: -d };
-  return { cls: 'hard', label: `${d}키`, sort: -d };
-}
-
+// ---------- 결과 ----------
 let last;
-function renderResult(r, chestHigh) {
-  const center = (r.comfortLow + r.comfortHigh) / 2;
-  const [type, desc] = voiceType(center, chestHigh);
-  $('r-type').textContent = type;
-  $('r-desc').textContent = desc;
+function renderResult() {
+  const est = estimate();
+  const type = voiceType(est.lo, est.easy);
+  const range = !est.hi ? `${note(est.lo)} 이상` : est.hi - 1 > est.lo ? `${note(est.lo)} ~ ${note(est.hi - 1)}` : note(est.lo);
+  $('r-eyebrow').textContent = `${SITUATION[situation].label}, 추정 진성 한계 ${range}`;
+  $('r-type').textContent = type.name;
+  $('r-desc').textContent = type.desc + (est.conflict ? ' (편하다고 고른 곡보다 낮은 곡을 버겁다고 고르셔서, 편한 곡 기준으로 계산했어요.)' : '');
+  $('r-rec-title').textContent = SITUATION[situation].recTitle;
 
-  // 음역 막대 (C2~C6)
-  const lo = 36, hi = 84;
-  const pct = (m) => `${((Math.min(hi, Math.max(lo, m)) - lo) / (hi - lo)) * 100}%`;
-  const ticks = [48, 60, 72].map((m) => `<span class="tick" style="left:${pct(m)}">${note(m).ko}</span>`).join('');
-  $('r-range').innerHTML = `
-    <div class="track"></div>
-    <div class="full" style="left:${pct(r.lowest)};width:calc(${pct(chestHigh)} - ${pct(r.lowest)})"></div>
-    <div class="comfort" style="left:${pct(r.comfortLow)};width:calc(${pct(r.comfortHigh)} - ${pct(r.comfortLow)})"></div>
-    ${ticks}`;
+  const fit = songs.filter((s) => s.situations.includes(situation));
+  const known = fit.filter((s) => s.high != null).map((s) => ({ ...s, key: keyOf(est.lo, s.high) }));
+  const picked = new Set(marks.keys());
+  const good = known.filter((s) => s.key.d >= -2)
+    .sort((a, b) => (picked.has(a.title) - picked.has(b.title)) || Math.abs(a.key.d) - Math.abs(b.key.d));
+  const recs = good.slice(0, 3);
+  const pending = fit.filter((s) => s.high == null).slice(0, Math.max(0, 3 - recs.length) + 1);
 
-  const stat = (k, m) => `<div class="stat"><div class="k">${k}</div><div class="v">${note(m).ko}<small>${note(m).intl}</small></div></div>`;
-  const acc = r.accuracy25 == null ? '-' : `${Math.round(r.accuracy25 * 100)}%`;
-  $('r-stats').innerHTML =
-    stat('진성 최고음', chestHigh) + stat('최저음', r.lowest) +
-    `<div class="stat"><div class="k">편한 음역</div><div class="v" style="font-size:16px">${note(r.comfortLow).ko} ~ ${note(r.comfortHigh).ko}</div></div>` +
-    `<div class="stat"><div class="k">음 중심 정확도</div><div class="v">${acc}<small>±25센트 안</small></div></div>`;
+  $('r-recs').innerHTML = recs.map((s) => `
+    <div class="rec">
+      <div class="top"><div><div style="font-weight:700">${s.title}</div><div class="small muted">${s.artist}${s.tj ? `, TJ ${s.tj}` : ''}</div></div>
+      <div class="key ${s.key.cls}">${s.key.label}</div></div>
+      <div class="tip"><span class="tag">${s.mood}</span><span class="tag">${s.appeal} 어필</span><br>${s.tip}</div>
+    </div>`).join('') +
+    pending.map((s) => `
+    <div class="rec">
+      <div class="top"><div><div style="font-weight:700">${s.title}</div><div class="small muted">${s.artist}</div></div>
+      <div class="key down">키 정보 준비 중</div></div>
+      <div class="tip"><span class="tag">${s.mood}</span>${s.tip.replace(/^초안: /, '')}</div>
+    </div>`).join('') ||
+    '<p class="small muted">이 상황에 맞는 곡을 아직 준비 중이에요.</p>';
 
-  // 3옥 위 고음
-  const peak = r.highest;
-  const hasFalsetto = peak != null && peak >= FALSETTO_LINE;
-  $('r-falsetto').classList.toggle('hidden', !hasFalsetto);
-  if (hasFalsetto) {
-    $('r-falsetto-text').textContent =
-      `${note(peak).ko}(${note(peak).intl})까지 올라갔어요. 가성이었다면 가성 음역이 넓은 편이에요. 키 추천은 진성 기준인 ${note(chestHigh).ko} 아래로 맞췄어요. 후렴 고음이 짧게 스치는 곡은 그 부분만 가성으로 넘기고 한 키 덜 낮춰도 돼요.`;
-  }
+  const avoid = known.filter((s) => s.key.d <= -3);
+  $('r-avoid-card').classList.toggle('hidden', avoid.length === 0);
+  $('r-avoid').innerHTML = avoid.map((s) => `${s.title}: 원곡 최고음 ${note(s.high)}, ${s.key.label} 이상 낮춰야 해요`).join('<br>');
 
-  // 곡 추천
-  const list = songs
-    .map((s) => ({ ...s, adv: keyAdvice(chestHigh, s.high) }))
-    .sort((a, b) => a.adv.sort - b.adv.sort || b.high - a.high);
-  $('r-songs').innerHTML = list.map((s) => `
-    <li class="song">
-      <div><div class="t">${s.title}</div><div class="a">${s.artist}, 원곡 최고음 ${note(s.high).ko}${s.tj ? `, TJ ${s.tj}` : ''}</div></div>
-      <div class="key ${s.adv.cls}">${s.adv.label}</div>
-    </li>`).join('');
-
-  last = { type, chestHigh, comfortLow: r.comfortLow, comfortHigh: r.comfortHigh, top: list.slice(0, 3) };
+  last = { type: type.name, range, recs };
+  track('result', { situation, picks: marks.size });
   show('s-result');
-  window.scrollTo(0, 0);
 }
 
 // ---------- 공유 카드 ----------
 function drawCard() {
-  const W = 1080, H = 1350;
-  const c = document.createElement('canvas');
+  const W = 1080, H = 1350, c = document.createElement('canvas');
   c.width = W; c.height = H;
   const g = c.getContext('2d');
   const font = (w, s) => `${w} ${s}px "Pretendard Variable", Pretendard, sans-serif`;
@@ -200,62 +142,40 @@ function drawCard() {
   const grad = g.createLinearGradient(0, 0, W, 0);
   grad.addColorStop(0, '#ff6b8b'); grad.addColorStop(1, '#ffb36b');
   g.fillStyle = grad; g.fillRect(80, 120, 120, 10);
-
-  g.fillStyle = '#ffb36b'; g.font = font(600, 40); g.fillText('노래방 내 키 찾기', 80, 210);
-  g.fillStyle = '#f3f1fa'; g.font = font(800, 104); g.fillText(last.type, 80, 340);
-
-  g.font = font(500, 40); g.fillStyle = '#a9a4bf';
-  g.fillText(`진성 최고음  ${note(last.chestHigh).ko}`, 80, 450);
-  g.fillText(`편한 음역  ${note(last.comfortLow).ko} ~ ${note(last.comfortHigh).ko}`, 80, 510);
-
-  g.fillStyle = '#f3f1fa'; g.font = font(700, 48); g.fillText('내 키로 부를 곡', 80, 650);
-  last.top.forEach((s, i) => {
-    const y = 760 + i * 130;
-    g.fillStyle = '#1d1b29'; roundRect(g, 80, y - 70, W - 160, 105, 24); g.fill();
+  g.fillStyle = '#ffb36b'; g.font = font(600, 40); g.fillText('노래방 선곡 코치', 80, 210);
+  g.fillStyle = '#f3f1fa'; g.font = font(800, 92); g.fillText(last.type, 80, 330);
+  g.fillStyle = '#a9a4bf'; g.font = font(500, 40); g.fillText(`추정 진성 한계 ${last.range}`, 80, 420);
+  g.fillStyle = '#f3f1fa'; g.font = font(700, 48); g.fillText('오늘 부를 곡', 80, 560);
+  last.recs.forEach((s, i) => {
+    const y = 670 + i * 130;
+    g.fillStyle = '#1d1b29'; g.beginPath(); g.roundRect(80, y - 70, W - 160, 105, 24); g.fill();
     g.fillStyle = '#f3f1fa'; g.font = font(700, 44); g.fillText(s.title, 120, y);
-    g.fillStyle = s.adv.cls === 'ok' ? '#5fd3a6' : '#ffc857'; g.font = font(800, 44);
-    const t = s.adv.label; g.fillText(t, W - 120 - g.measureText(t).width, y);
+    g.fillStyle = s.key.cls === 'ok' ? '#5fd3a6' : '#ffc857'; g.font = font(800, 44);
+    g.fillText(s.key.label, W - 120 - g.measureText(s.key.label).width, y);
   });
-  g.fillStyle = '#a9a4bf'; g.font = font(500, 34);
-  g.fillText('후렴 30초면 내 키가 나와요', 80, H - 110);
+  g.fillStyle = '#a9a4bf'; g.font = font(500, 34); g.fillText('너는 몇 키야? 1분이면 나와요', 80, H - 110);
   return c;
-}
-
-function roundRect(g, x, y, w, h, r) {
-  g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
-  g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
 }
 
 async function share() {
   track('share_click');
-  const canvas = drawCard();
-  const blob = await new Promise((res) => canvas.toBlob(res, 'image/png'));
-  const file = new File([blob], 'my-karaoke-key.png', { type: 'image/png' });
-  const text = `나는 ${last.type}, 진성 최고음 ${note(last.chestHigh).ko}. 너는 몇 키야?`;
+  const blob = await new Promise((res) => drawCard().toBlob(res, 'image/png'));
+  const file = new File([blob], 'my-karaoke-pick.png', { type: 'image/png' });
+  const text = `나는 ${last.type}. 너는 몇 키야?`;
   const url = location.href.split('#')[0];
   try {
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file], text: `${text}\n${url}` });
-      return;
-    }
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text: `${text}\n${url}` }); return; }
     if (navigator.share) { await navigator.share({ text, url }); return; }
   } catch (e) { if (e.name === 'AbortError') return; }
-  // 공유 기능이 없는 환경: 이미지 저장 + 링크 복사
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = file.name; a.click();
   try { await navigator.clipboard.writeText(`${text}\n${url}`); } catch (e) {}
-  alert('결과 이미지를 저장하고 링크를 복사했어요. 카카오톡 대화방에 붙여 넣어 주세요.');
+  $('btn-share').textContent = '이미지 저장, 링크 복사 완료';
 }
 
 // ---------- 연결 ----------
-$('btn-start').addEventListener('click', startRecording);
-$('btn-stop').addEventListener('click', stopRecording);
-$('file').addEventListener('change', (e) => e.target.files[0] && fromFile(e.target.files[0]));
-$('btn-retry').addEventListener('click', () => { $('file').value = ''; show('s-intro'); });
+$('btn-start').addEventListener('click', () => { track('start'); show('s-situation'); });
+document.querySelectorAll('.choice').forEach((b) => b.addEventListener('click', () => { situation = b.dataset.s; show('s-pick'); }));
+$('btn-result').addEventListener('click', renderResult);
 $('btn-share').addEventListener('click', share);
-
-// 개발용: 분석 결과 객체로 화면만 확인할 때 쓴다
-window.__renderForTest = (midiArray) => {
-  const r = analyzeMidi(Float32Array.from(midiArray));
-  renderResult(r, highestBelow(r._midi, FALSETTO_LINE));
-};
+$('btn-retry').addEventListener('click', () => { marks.clear(); $('q').value = ''; renderPicks(); show('s-situation'); });

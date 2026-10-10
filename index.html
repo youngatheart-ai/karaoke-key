@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>노래방 내 키 찾기</title>
-<meta name="description" content="후렴 30초만 부르면 내 음역과 노래방 곡별 추천 키를 알려 드려요. 목소리는 폰 밖으로 나가지 않아요.">
+<title>노래방 선곡 코치</title>
+<meta name="description" content="애창곡 몇 개만 고르면 내 음역을 추정하고, 상황에 맞는 곡과 키, 부르는 포인트를 알려 드려요.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root {
@@ -91,86 +91,76 @@
   footer a { color: var(--muted); }
   .spinner { width: 44px; height: 44px; border-radius: 50%; border: 4px solid var(--surface-2); border-top-color: var(--accent); animation: spin 0.9s linear infinite; margin: 40px auto 16px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  .choice { display:block; width:100%; text-align:left; background:var(--surface); border:1px solid var(--line); color:var(--text); border-radius:16px; padding:18px; margin:10px 0; font:inherit; cursor:pointer; }
+  .choice b { display:block; font-size:18px; margin-bottom:2px; }
+  .choice span { color:var(--muted); font-size:14px; }
+  .search { width:100%; min-height:48px; border-radius:12px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); font:inherit; padding:0 14px; margin:8px 0 4px; }
+  .pick { display:grid; grid-template-columns:1fr auto; gap:6px 10px; align-items:center; padding:12px 0; border-top:1px solid var(--line); }
+  .pick:first-child { border-top:0; }
+  .chips { display:flex; gap:6px; }
+  .chip { min-height:40px; padding:0 12px; border-radius:99px; border:1px solid var(--line); background:var(--surface-2); color:var(--muted); font:inherit; font-size:13px; font-weight:600; cursor:pointer; }
+  .chip.on.easy { background:rgba(95,211,166,.18); color:var(--ok); border-color:var(--ok); }
+  .chip.on.hard { background:rgba(255,107,139,.16); color:var(--accent); border-color:var(--accent); }
+  .sticky { position:sticky; bottom:0; padding:12px 0 calc(12px + env(safe-area-inset-bottom)); background:linear-gradient(transparent, var(--bg) 30%); }
+  .rec { padding:14px 0; border-top:1px solid var(--line); }
+  .rec:first-child { border-top:0; }
+  .rec .top { display:flex; justify-content:space-between; gap:10px; align-items:center; }
+  .rec .tip { margin-top:6px; font-size:14px; color:var(--text); background:var(--surface-2); border-radius:10px; padding:10px 12px; }
+  .tag { display:inline-block; font-size:12px; color:var(--accent-2); margin-right:6px; }
+  .missing { display:flex; gap:8px; margin-top:8px; }
+  .missing input { flex:1; }
+  .missing button { min-width:72px; border-radius:12px; border:0; background:var(--surface-2); color:var(--text); font:inherit; }
 </style>
 </head>
 <body>
 <main>
-
-  <!-- 1. 시작 -->
   <section id="s-intro">
-    <div class="eyebrow">노래방 음역 진단</div>
-    <h1>후렴 30초만 불러 주세요.<br>내 키를 찾아 드릴게요.</h1>
-    <p class="muted">내 목소리가 편하게 머무는 음역과, 노래방 인기곡을 몇 키로 부르면 좋은지 알려 드려요.</p>
-
-    <div class="card">
-      <h2>이렇게 불러 주세요</h2>
-      <ul class="tips">
-        <li><b>1</b><span>반주 없이 목소리만. 반주가 필요하면 다른 기기에서 이어폰으로 들으면서 불러요.</span></li>
-        <li><b>2</b><span>가장 높은 부분이 들어간 후렴을 골라요. 길게 끄는 음이 있으면 더 정확해요.</span></li>
-        <li><b>3</b><span>폰을 입에서 한 뼘쯤 떨어뜨리고, 조용한 곳에서 불러요.</span></li>
-      </ul>
-    </div>
-
-    <button class="btn" id="btn-start">🎤 30초 녹음 시작</button>
-    <label class="file-link" for="file">녹음해 둔 무반주 파일로 할게요</label>
-    <input type="file" id="file" accept="audio/*" class="hidden">
-    <p class="small muted" style="text-align:center;margin-top:16px">목소리는 이 폰 안에서만 분석하고, 어디에도 보내거나 저장하지 않아요.</p>
+    <div class="eyebrow">노래방 선곡 코치</div>
+    <h1>오늘 노래방,<br>뭐 부르면 멋있을까요?</h1>
+    <p class="muted">평소 부르는 곡 몇 개만 골라 주세요. 내 음역에 맞으면서 오늘 자리에 어울리는 곡, 몇 키로 부를지, 어디에 힘을 줄지 알려 드려요.</p>
+    <div class="card small muted">녹음 없이, 곡만 고르면 끝나요. 1분이면 돼요.</div>
+    <button class="btn" id="btn-start">시작하기</button>
   </section>
 
-  <!-- 2. 녹음 중 -->
-  <section id="s-rec" class="hidden">
-    <div class="rec-wrap">
-      <div class="ring">
-        <svg width="220" height="220" viewBox="0 0 220 220">
-          <circle cx="110" cy="110" r="98" fill="none" stroke="var(--surface-2)" stroke-width="12"/>
-          <circle id="ring-bar" cx="110" cy="110" r="98" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="615.75" stroke-dashoffset="615.75"/>
-          <defs><linearGradient id="g"><stop offset="0" stop-color="#ff6b8b"/><stop offset="1" stop-color="#ffb36b"/></linearGradient></defs>
-        </svg>
-        <div class="num"><div><span id="rec-sec">30</span><small>초 남음</small></div></div>
-      </div>
-      <div class="live-note" id="live-note">불러 주세요</div>
-      <div class="meter"><i id="meter"></i></div>
-      <button class="btn secondary" id="btn-stop" disabled>15초 뒤부터 끝낼 수 있어요</button>
-    </div>
+  <section id="s-situation" class="hidden">
+    <div class="eyebrow">1 / 2</div>
+    <h1>오늘은 누구와 가나요?</h1>
+    <button class="choice" data-s="호감"><b>마음에 드는 사람과</b><span>썸, 소개팅 뒤풀이, 잘 보이고 싶은 자리</span></button>
+    <button class="choice" data-s="친구"><b>친구들과</b><span>편하게 놀고, 한 곡쯤은 제대로 보여 주고 싶은 자리</span></button>
+    <button class="choice" data-s="회식"><b>회식에서</b><span>분위기도 맞추고 무난하게 넘어가고 싶은 자리</span></button>
   </section>
 
-  <!-- 3. 분석 중 -->
-  <section id="s-busy" class="hidden" style="text-align:center">
-    <div class="spinner"></div>
-    <p>음높이를 하나하나 재는 중이에요</p>
+  <section id="s-pick" class="hidden">
+    <div class="eyebrow">2 / 2</div>
+    <h1>불러 본 곡을 골라 주세요</h1>
+    <p class="muted small">원키로 편하게 부르는 곡은 "편해요", 고음에서 버거웠던 곡은 "버거워요". 편한 곡을 하나 이상 골라 주세요. 버거운 곡까지 고르면 더 정확해져요.</p>
+    <input class="search" id="q" placeholder="곡이나 가수 검색">
+    <div class="card" style="padding:4px 16px"><div id="pick-list"></div></div>
+    <div class="small muted">찾는 곡이 없나요? 알려 주시면 다음에 넣을게요.</div>
+    <div class="missing"><input class="search" id="missing" placeholder="곡 제목 - 가수"><button id="btn-missing">보내기</button></div>
+    <div class="sticky"><button class="btn" id="btn-result" disabled>편한 곡을 하나 이상 골라 주세요</button></div>
   </section>
 
-  <!-- 4. 결과 -->
   <section id="s-result" class="hidden">
-    <div class="eyebrow">내 목소리 진단 결과</div>
+    <div class="eyebrow" id="r-eyebrow"></div>
     <div class="type" id="r-type"></div>
     <p class="muted" id="r-desc"></p>
-
     <div class="card">
-      <h2>내 음역</h2>
-      <div class="range" id="r-range"></div>
-      <div class="legend"><span style="--c:linear-gradient(90deg,#ff6b8b,#ffb36b)">편하게 머무는 음역</span><span style="--c:#4b4566">낼 수 있는 음역</span></div>
-      <div class="stats" id="r-stats"></div>
+      <h2 id="r-rec-title"></h2>
+      <div id="r-recs"></div>
     </div>
-
-    <div class="card falsetto hidden" id="r-falsetto">
-      <h2>3옥 위의 고음이 잡혔어요</h2>
-      <p class="muted small" id="r-falsetto-text"></p>
+    <div class="card hidden" id="r-avoid-card">
+      <h2>첫 곡으로는 피하세요</h2>
+      <div id="r-avoid" class="small muted"></div>
     </div>
-
-    <div class="card">
-      <h2>노래방에서 이 키로 불러 보세요</h2>
-      <ul class="songs" id="r-songs"></ul>
-      <div class="notice">곡별 최고음은 공개 자료(나무위키)를 기준으로 했어요. 누구나 고칠 수 있는 자료라 반음 정도 다를 수 있어요. 추천 키로 불러 보고 버거우면 한 칸 더 내려 주세요. 지금은 남성 가수 원곡 위주 11곡이고, 곡은 계속 늘려 갈게요.</div>
-    </div>
-
+    <div class="notice">곡별 최고음은 공개 자료(나무위키)와 AI 검색 결과를 기준으로 했어요. 일부 곡은 추정값이에요. 반음 정도 다를 수 있으니, 추천 키로 불러 보고 버거우면 한 칸 더 내려 주세요. 음역은 고른 곡으로 추정한 값이라 실제와 차이가 날 수 있어요.</div>
+    <div style="height:16px"></div>
     <button class="btn" id="btn-share">결과 카드 공유하기</button>
-    <button class="btn secondary" id="btn-retry">다시 부르기</button>
+    <button class="btn secondary" id="btn-retry">다시 하기</button>
   </section>
 
-  <footer>
-    분석은 브라우저 안에서만 이뤄져요. 녹음은 저장되지 않아요.
-  </footer>
+  <footer>입력한 곡은 이 기기 안에서만 계산해요.</footer>
 </main>
 <script type="module" src="./app.js"></script>
 </body>

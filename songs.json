@@ -4,98 +4,267 @@
   "artist": "엠씨더맥스",
   "tj": null,
   "high": 72,
-  "note": null,
-  "mood": "이별",
-  "src": "나무위키 행복하지 말아요"
+  "mood": "이별 감성",
+  "appeal": "고음",
+  "situations": [
+   "친구"
+  ],
+  "tip": "고음 구간이 길게 이어지는 곡이에요. 앞 절에서 힘을 아끼고 마지막 후렴에 몰아 쓰세요.",
+  "tipSource": "초안",
+  "highSource": "나무위키"
  },
  {
   "title": "천상연",
   "artist": "이창섭",
   "tj": "86059",
   "high": 70,
-  "note": "2024 리메이크 기준, 잠깐 찍는 음",
-  "mood": "사랑",
-  "src": "나무위키 천상연"
+  "mood": "이별 감성",
+  "appeal": "고음",
+  "situations": [
+   "친구"
+  ],
+  "tip": "전체 음은 낮은 편이고 최고음은 잠깐 찍고 내려와요. 그 한 음에만 힘을 실으면 시원하게 들려요.",
+  "tipSource": "나무위키 곡 해설 요약",
+  "highSource": "나무위키 + LLM 교차 일치"
  },
  {
   "title": "Drowning",
   "artist": "WOODZ",
   "tj": "83945",
   "high": 73,
-  "note": "C5가 곡 전체에 자주 나옴",
-  "mood": "이별",
-  "src": "나무위키 Drowning(WOODZ)"
+  "mood": "이별 감성",
+  "appeal": "고음",
+  "situations": [
+   "친구"
+  ],
+  "tip": "3옥 도가 곡 내내 자주 나와요. 키를 충분히 낮추고, 고음은 소리보다 길이를 버티는 데 집중하세요.",
+  "tipSource": "나무위키 곡 해설 요약",
+  "highSource": "나무위키 + LLM 교차 일치"
  },
  {
   "title": "응급실",
   "artist": "izi",
   "tj": "14515",
   "high": 70,
-  "note": "후반 한 번, 나머지는 G#4",
-  "mood": "이별",
-  "src": "나무위키 응급실(izi)"
+  "mood": "이별 감성",
+  "appeal": "분위기",
+  "situations": [
+   "친구",
+   "회식"
+  ],
+  "tip": "최고음은 후반에 딱 한 번이고 나머지는 2옥 솔# 정도예요. 그 한 번만 넘기면 완창이 쉬운 곡이에요.",
+  "tipSource": "나무위키 곡 해설 요약",
+  "highSource": "나무위키 + LLM 교차 일치"
  },
  {
   "title": "이미 슬픈 사랑",
   "artist": "야다",
   "tj": null,
   "high": 73,
-  "note": null,
-  "mood": "이별",
-  "src": "나무위키 이미 슬픈 사랑"
+  "mood": "이별 감성",
+  "appeal": "고음",
+  "situations": [
+   "친구"
+  ],
+  "tip": "록 발라드 고음 곡이에요. 키를 낮추고 후렴은 목이 아니라 배로 밀어 주세요.",
+  "tipSource": "초안",
+  "highSource": "나무위키"
  },
  {
   "title": "삭제",
   "artist": "이승기",
   "tj": null,
   "high": 72,
-  "note": "구간표 최상단 기준",
-  "mood": "이별",
-  "src": "나무위키 삭제(이승기)"
+  "mood": "이별 감성",
+  "appeal": "고음",
+  "situations": [
+   "친구"
+  ],
+  "tip": "후렴 고음이 반복돼요. 처음부터 세게 가면 마지막에 지치니 1절은 70%로 부르세요.",
+  "tipSource": "초안",
+  "highSource": "나무위키"
  },
  {
   "title": "가질수 없는 너",
   "artist": "뱅크",
   "tj": null,
   "high": 70,
-  "note": null,
   "mood": "짝사랑",
-  "src": "나무위키 가질 수 없는 너"
+  "appeal": "고음",
+  "situations": [
+   "친구",
+   "회식"
+  ],
+  "tip": "록 발라드치고 최고음이 높지 않아요. 고음보다 끝음을 길게 끄는 게 멋있게 들리는 곡이에요.",
+  "tipSource": "나무위키 곡 해설 요약",
+  "highSource": "나무위키"
  },
  {
   "title": "가시",
   "artist": "버즈",
   "tj": null,
   "high": 69,
-  "note": null,
-  "mood": "이별",
-  "src": "나무위키 가시(버즈)"
+  "mood": "이별 감성",
+  "appeal": "고음",
+  "situations": [
+   "친구"
+  ],
+  "tip": "2옥 라 구간이 여러 번 나와요. 가사를 또박또박 끊어 부르면 록 느낌이 살아요.",
+  "tipSource": "초안",
+  "highSource": "나무위키 + LLM 교차 일치"
  },
  {
   "title": "소주 한 잔",
   "artist": "임창정",
   "tj": null,
   "high": 71,
-  "note": null,
-  "mood": "이별",
-  "src": "나무위키 소주 한 잔"
+  "mood": "이별 감성",
+  "appeal": "분위기",
+  "situations": [
+   "회식"
+  ],
+  "tip": "말하듯 시작해서 후렴에서 감정을 터뜨리는 곡이에요. 술자리 이야기라 회식 마무리 곡으로 좋아요.",
+  "tipSource": "초안",
+  "highSource": "나무위키 + LLM 교차 일치"
  },
  {
   "title": "좋니",
   "artist": "윤종신",
   "tj": null,
   "high": 70,
-  "note": "가성 애드립 D#5",
-  "mood": "이별",
-  "src": "나무위키 좋니"
+  "mood": "이별 감성",
+  "appeal": "감성",
+  "situations": [
+   "친구"
+  ],
+  "tip": "중고음이 쉬지 않고 이어져 체력 싸움이에요. 지친 상태에서 최고음이 나오니 앞부분 힘을 아끼세요. 마지막 가성 애드리브는 생략해도 돼요.",
+  "tipSource": "나무위키 곡 해설 요약",
+  "highSource": "나무위키"
  },
  {
   "title": "말리꽃",
   "artist": "이승철",
   "tj": null,
   "high": 71,
-  "note": "구간표 최상단 기준",
-  "mood": null,
-  "src": "나무위키 말리꽃"
+  "mood": "서정",
+  "appeal": "고음",
+  "situations": [
+   "친구"
+  ],
+  "tip": "2옥 솔#부터 시까지 높은 구간이 넓게 퍼져 있어요. 키를 낮추고 호흡을 길게 가져가세요.",
+  "tipSource": "나무위키 구간표 요약",
+  "highSource": "나무위키"
+ },
+ {
+  "title": "너의 모든 순간",
+  "artist": "성시경",
+  "tj": null,
+  "high": 68,
+  "mood": "설렘",
+  "appeal": "감성",
+  "situations": [
+   "호감"
+  ],
+  "tip": "진성 최고음이 2옥 솔#으로 높지 않아요. 고음 대신 속삭이듯 부드럽게 부르는 게 이 곡의 매력이에요.",
+  "tipSource": "나무위키 각주 요약",
+  "highSource": "나무위키"
+ },
+ {
+  "title": "그대라는 사치",
+  "artist": "한동근",
+  "tj": null,
+  "high": 71,
+  "mood": "서정",
+  "appeal": "감성",
+  "situations": [
+   "호감"
+  ],
+  "tip": "잔잔하게 가다가 후반 클라이맥스에서 2옥 시까지 올라가요. 앞부분을 묵직하게 눌러 두면 후반이 더 크게 들려요.",
+  "tipSource": "나무위키 곡 해설 요약",
+  "highSource": "나무위키"
+ },
+ {
+  "title": "사랑 Two",
+  "artist": "윤도현",
+  "tj": null,
+  "high": 67,
+  "mood": "서정",
+  "appeal": "감성",
+  "situations": [
+   "호감",
+   "회식"
+  ],
+  "tip": "최고음은 2옥 솔로 높지 않지만 후렴마다 반복돼서 체력이 필요해요. 중음을 탄탄하게 버티는 게 핵심이에요.",
+  "tipSource": "나무위키 곡 해설 요약",
+  "highSource": "나무위키"
+ },
+ {
+  "title": "모르시나요",
+  "artist": "조째즈",
+  "tj": "44491",
+  "high": null,
+  "mood": "짝사랑",
+  "appeal": "감성",
+  "situations": [
+   "호감"
+  ],
+  "tip": "초안: 허스키하게 긁는 창법이 특징이에요. 따라 하기보다 내 목소리로 담담하게 부르는 게 안전해요.",
+  "tipSource": "초안"
+ },
+ {
+  "title": "나였으면",
+  "artist": "나윤권",
+  "tj": null,
+  "high": 71,
+  "mood": "짝사랑",
+  "appeal": "감성",
+  "situations": [
+   "호감"
+  ],
+  "tip": "초안: 후렴이 인상적인 곡이에요. 후렴 첫 소절을 크게 시작하지 말고 점점 키워 가세요.",
+  "tipSource": "초안",
+  "highSource": "LLM 1곳 (A#4~B4 중 상한값)"
+ },
+ {
+  "title": "모든 날 모든 순간",
+  "artist": "폴킴",
+  "tj": null,
+  "high": 68,
+  "mood": "설렘",
+  "appeal": "감성",
+  "situations": [
+   "호감"
+  ],
+  "tip": "초안: 어쿠스틱 발라드예요. 힘을 빼고 말하듯 부르면 진심이 전해지는 곡이에요.",
+  "tipSource": "초안",
+  "highSource": "LLM 1곳 (단일값)"
+ },
+ {
+  "title": "좋은 밤 좋은 꿈",
+  "artist": "너드커넥션",
+  "tj": null,
+  "high": 69,
+  "mood": "설렘",
+  "appeal": "감성",
+  "situations": [
+   "호감"
+  ],
+  "tip": "초안: 밴드 발라드라 담백하게 부르다 후렴에서 살짝 열어 주세요.",
+  "tipSource": "초안",
+  "highSource": "LLM 1곳 (G4~A4 중 상한값)"
+ },
+ {
+  "title": "사랑의 바보",
+  "artist": "더 넛츠",
+  "tj": "13721",
+  "high": 70,
+  "mood": "고백",
+  "appeal": "감성",
+  "situations": [
+   "호감"
+  ],
+  "tip": "초안: 고백하듯 부르는 곡이에요. 후렴 끝음을 길게 끌어 마음을 전하세요.",
+  "tipSource": "초안",
+  "highSource": "LLM 1곳 (A4~A#4 중 상한값)"
  }
 ]
