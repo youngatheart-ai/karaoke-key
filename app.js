@@ -5,8 +5,17 @@ const $ = (id) => document.getElementById(id);
 const screens = ['s-intro', 's-situation', 's-pick', 's-result'];
 const show = (id) => { screens.forEach((s) => $(s).classList.toggle('hidden', s !== id)); window.scrollTo(0, 0); };
 
-// 측정 지점. 지금은 콘솔에만 남긴다. 배포 시 분석 도구를 연결한다.
-const track = (event, data = {}) => console.log('[track]', event, data);
+// 익명 이용 통계. 어떤 단계까지 왔는지만 남긴다(개인 식별 정보 없음). 실패해도 화면에는 영향 없음.
+const DB_URL = 'https://wdgvonpejhvrnbngplgn.supabase.co/rest/v1/karaoke_events';
+const DB_KEY = 'sb_publishable_wdqLPEt9V5BPQsLKFIMV8Q_yiSVp4Yo'; // 공개용(publishable) 키. 쓰기만 허용, 읽기는 막혀 있다
+const SESSION = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)).slice(0, 36);
+const SRC = (new URLSearchParams(location.search).get('src') || '').slice(0, 30) || null;
+const LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+const track = (event, data = {}) => {
+  const row = { event, session: SESSION, src: SRC, situation: data.situation ?? null, picks: data.picks ?? null, song: data.song ? String(data.song).slice(0, 60) : null };
+  if (LOCAL) { console.log('[track]', row); return; }
+  fetch(DB_URL, { method: 'POST', keepalive: true, headers: { apikey: DB_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(row) }).catch(() => {});
+};
 
 const KO = ['도', '도#', '레', '레#', '미', '파', '파#', '솔', '솔#', '라', '라#', '시'];
 const note = (m) => `${Math.floor(m / 12) - 3}옥 ${KO[((m % 12) + 12) % 12]}`; // C4 = 2옥 도
@@ -158,7 +167,7 @@ function drawCard() {
 }
 
 async function share() {
-  track('share_click');
+  track('share_click', { situation });
   const blob = await new Promise((res) => drawCard().toBlob(res, 'image/png'));
   const file = new File([blob], 'my-karaoke-pick.png', { type: 'image/png' });
   const text = `나는 ${last.type}. 너는 몇 키야?`;
